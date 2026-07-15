@@ -6,6 +6,7 @@ Le MCP se divise en 3 catégorie:
 - Host
 - Client
 - Server
+
 Un hôte MCP, c'est celui qui va gérer les connecions vers un ou plusieurs serveurs MCP.
 Le Client MCP lui est un composant, généralement intégré a une application hôte. 
 Le serveur MCP, lui, il attend des requêtes et y répond en exposant des outils, des ressources, et éventuellement des prompts.
