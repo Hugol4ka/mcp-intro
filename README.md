@@ -30,9 +30,9 @@ Pour démarrer le serveur de programmation en arrière-plan via le transport std
 python server/learning_server.py
 ```
 
-## Programming Learning Server — Procédure de Test MCP
+## Procédure de Test MCP
 
-Ce guide documente la configuration des prérequis, l'écriture du script automatisé ainsi que les procédures de test pour valider le bon fonctionnement de votre serveur MCP.
+Ce guide documente la configuration des prérequis, ainsi que la procédure de test pour valider le bon fonctionnement de votre serveur MCP.
 
 ---
 ## 1. Prérequis système
