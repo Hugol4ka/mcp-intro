@@ -34,7 +34,6 @@ python server/learning_server.py
 
 Ce guide documente la configuration des prérequis, ainsi que la procédure de test pour valider le bon fonctionnement de votre serveur MCP.
 
----
 ## 1. Prérequis système
 
 Avant de pouvoir lancer les tests, assurez-vous que votre environnement dispose des outils suivants :
