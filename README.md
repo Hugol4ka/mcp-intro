@@ -26,6 +26,6 @@ Un serveur ne doit exposer le strict nécessaire car c'est un point de sécurit�
 ## Mode d'emploi du Serveur MCP
 
 ### Lancement en mode Production (stdio)
-Pour démarrer le serveur de programmation en arrière-plan via le transport stdio (utilisé par les clients comme Claude Desktop ou ton futur agent) :
+Pour démarrer le serveur de programmation en arrière-plan via le transport stdio (utilisé par les clients comme Claude Desktop ou un futur agent) :
 ```bash
 python server/learning_server.py
