@@ -22,3 +22,10 @@ et les ressources, c'est le contexte (lecture seulement)
 Un serveur ne doit exposer le strict nécessaire car c'est un point de sécurité important pour:
 -la prévention d'injection et abus
 -sécurisation des donées
+
+## Mode d'emploi du Serveur MCP
+
+### Lancement en mode Production (stdio)
+Pour démarrer le serveur de programmation en arrière-plan via le transport stdio (utilisé par les clients comme Claude Desktop ou ton futur agent) :
+```bash
+python server/learning_server.py
