@@ -37,9 +37,9 @@ Un serveur ne doit exposer que le strict nécessaire, ce qui constitue un point 
 
 Pour démarrer le serveur en arrière-plan via le transport `stdio` (utilisé par des clients comme Claude Desktop ou un futur agent) :
 
-\`\`\`bash
+```bash
 python server/learning_server.py
-\`\`\`
+```
 
 ---
 
@@ -74,9 +74,9 @@ Le serveur utilise les dépendances du dossier local `.venv`.
 
 Assurez-vous que le fichier `requirements.txt` (contenant `fastmcp`, `groq`, `openai`) est présent à la racine de votre projet, puis lancez :
 
-\`\`\`bash
+```bash
 pip install -r requirements.txt
-\`\`\`
+```
 
 ---
 
@@ -88,9 +88,9 @@ L'**MCP Inspector** est l'outil visuel officiel d'Anthropic pour inspecter les s
 
 Depuis la racine de votre projet (avec votre environnement virtuel actif), exécutez la commande suivante :
 
-\`\`\`bash
+```bash
 npx @modelcontextprotocol/inspector python server/learning_server.py
-\`\`\`
+```
 
 #### Résultat des tests
 
@@ -111,9 +111,9 @@ Afin d'exécuter l'agent sans dépendre d'une API cloud payante, nous utilisons 
 1. Téléchargez et installez Ollama depuis [ollama.com](https://ollama.com).
 2. Récupérez le modèle optimisé pour l'appel d'outils (Tool Calling) :
 
-\`\`\`bash
+```bash
 ollama pull qwen3
-\`\`\`
+```
 
 ### 2. Exécution de l'agent
 
@@ -121,9 +121,9 @@ L'agent va automatiquement démarrer le serveur MCP en arrière-plan, envoyer la
 
 Vérifiez qu'Ollama tourne bien en tâche de fond (vous pouvez tester avec `ollama list`), puis lancez :
 
-\`\`\`bash
+```bash
 python client/agent.py
-\`\`\`
+```
 
 ### 3. Résultat généré
 
