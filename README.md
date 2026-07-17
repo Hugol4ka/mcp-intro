@@ -112,7 +112,7 @@ Afin d'exécuter l'agent sans dépendre d'une API cloud payante, nous utilisons 
 2. Récupérez le modèle optimisé pour l'appel d'outils (Tool Calling) :
 
 ```bash
-ollama pull qwen3
+ollama pull qwen3:14b
 ```
 
 ### 2. Exécution de l'agent
