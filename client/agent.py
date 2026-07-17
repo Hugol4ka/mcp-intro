@@ -1,5 +1,6 @@
 import asyncio
 import os
+import sys
 import json
 from fastmcp import Client
 from openai import OpenAI
@@ -16,6 +17,14 @@ local_client = OpenAI(
 
 async def run_agent():
     print("Démarrage de l'agent 100% local (Ollama + MCP)...")
+
+    # Récupération du sujet demandé en argument de ligne de commande
+    if len(sys.argv) <= 1:
+        print("Erreur : sujet manquant.")
+        print("Utilisation : python client/agent.py \"<votre sujet>\"")
+        sys.exit(1)
+
+    user_prompt = " ".join(sys.argv[1:])
     
     # 3. On ouvre la session MCP
     async with mcp_client as session:
@@ -33,7 +42,6 @@ async def run_agent():
                 }
             })
 
-        user_prompt = "I want to study Python decorators. What should I review first?"
         print(f"Envoi de la requête à Ollama : '{user_prompt}'...")
 
         messages = [
@@ -59,11 +67,12 @@ async def run_agent():
         response_message = response.choices[0].message
         tool_calls = response_message.tool_calls
 
-        # 5. Si le modèle local décide d'utiliser un outil
         if tool_calls:
             print("Ollama a décidé d'appeler un outil MCP...")
             messages.append(response_message)
-            
+
+            topic_not_found = False
+
             for tool_call in tool_calls:
                 function_name = tool_call.function.name
                 arguments = json.loads(tool_call.function.arguments)
@@ -72,21 +81,33 @@ async def run_agent():
                 
                 # Appel de l'outil sur ton serveur MCP
                 tool_result = await session.call_tool(function_name, arguments)
+                result_str = str(tool_result)
+
+                # Vérification : le serveur n'a rien trouvé pour ce sujet
+                if function_name == "search_topics" and "No programming topics found" in result_str:
+                    topic_not_found = True
                 
                 messages.append({
                     "role": "tool",
                     "tool_call_id": tool_call.id,
                     "name": function_name,
-                    "content": str(tool_result)
+                    "content": result_str
                 })
-            
-            # Deuxième appel à Ollama pour rédiger la réponse finale
-            print("Génération de la réponse finale...")
-            final_response = local_client.chat.completions.create(
-                model="qwen3:14b",
-                messages=messages
-            )
-            response_text = final_response.choices[0].message.content
+
+            if topic_not_found:
+                print("Aucun sujet correspondant trouvé dans la base locale.")
+                response_text = (
+                    f"Aucun sujet correspondant à '{user_prompt}' n'a été trouvé dans la base locale. "
+                    "Merci de reformuler votre demande ou de choisir un sujet disponible."
+                )
+            else:
+                # Deuxième appel à Ollama pour rédiger la réponse finale
+                print("Génération de la réponse finale...")
+                final_response = local_client.chat.completions.create(
+                    model="qwen3:14b",
+                    messages=messages
+                )
+                response_text = final_response.choices[0].message.content
         else:
             response_text = response_message.content
 
