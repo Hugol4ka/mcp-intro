@@ -10,25 +10,35 @@ def search_topics(query: str) -> list:
     with open("data/topics.json", "r") as f:
         donnees = json.load(f)
     
+    # Assurer que donnees soit traité comme une liste
+    sujets = [donnees] if isinstance(donnees, dict) else donnees
+    
     resultats = []
 
-    for topics, details in donnees.items():
+    for topic in sujets:
+        # On extrait les champs textuels en gérant les valeurs absentes
+        topic_id = topic.get("id", "")
+        title = topic.get("title", "")
+        summary = topic.get("summary", "")
 
-        if not isinstance(details, dict):
-            continue
+        # Correspondance dans l'id, le titre ou le résumé
+        match_texte = (
+            query.lower() in topic_id.lower() or
+            query.lower() in title.lower() or
+            query.lower() in summary.lower()
+        )
 
-        titre_match = query.lower() in topics.lower()
-
-        concept_match = False
-
-        if "key_concepts" in details and isinstance(details["key_concepts"], list):
-            for concept in details["key_concepts"]:
+        # Correspondance dans les concepts clés (key_concepts)
+        match_concept = False
+        key_concepts = topic.get("key_concepts", [])
+        if isinstance(key_concepts, list):
+            for concept in key_concepts:
                 if query.lower() in concept.lower():
-                    concept_match = True
+                    match_concept = True
                     break
 
-        if titre_match or concept_match:
-            resultats.append(details)
+        if match_texte or match_concept:
+            resultats.append(topic)
 
     if not resultats:
         return [{"message": f"No programming topics found matching '{query}'."}]
@@ -42,10 +52,7 @@ def get_topic_details(topic_id: str) -> dict:
         with open("data/topics.json", "r") as f:
             donnees = json.load(f)
 
-        if isinstance(donnees, dict):
-            sujets = [donnees]
-        else:
-            sujets = donnees
+        sujets = [donnees] if isinstance(donnees, dict) else donnees
 
         # Recherche du sujet correspondant à l'ID
         for sujet in sujets:
@@ -68,10 +75,7 @@ def get_topic_catalog() -> str:
     with open("data/topics.json", "r") as f:
         donnees = json.load(f)
     
-    if isinstance(donnees, dict):
-        sujets = [donnees]
-    else:
-        sujets = donnees
+    sujets = [donnees] if isinstance(donnees, dict) else donnees
     
     catalog = []
     for sujet in sujets:

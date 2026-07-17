@@ -1,9 +1,47 @@
-{
-  "id": "python-decorators",
-  "title": "Python Decorators",
-  "summary": "A short explanation of what this topic covers.",
-  "prerequisites": ["Functions", "Scope"],
-  "key_concepts": ["Higher-order functions", "Wrapper functions"],
-  "common_mistakes": ["Forgetting to return the wrapper function"],
-  "practice_idea": "Create a decorator that logs function calls."
+[
+  {
+    "id": "python-decorators",
+    "title": "Python Decorators",
+    "summary": "A short explanation of what this topic covers.",
+    "prerequisites": ["Functions", "Scope"],
+    "key_concepts": ["Higher-order functions", "Wrapper functions"],
+    "common_mistakes": ["Forgetting to return the wrapper function"],
+    "practice_idea": "Create a decorator that logs function calls."
+  },
+  {
+    "id": "python-inheritance",
+    "title": "Object-Oriented Programming: Inheritance",
+    "summary": "Learn how subclasses inherit attributes and methods from base classes to write modular and reusable code.",
+    "prerequisites": ["Classes and Objects", "Attributes and Methods"],
+    "key_concepts": ["Base and Derived classes", "Method overriding", "The super() function", "Polymorphism"],
+    "common_mistakes": ["Forgetting to call super().__init__() in the subclass constructor", "Using inheritance when object composition would be more appropriate"],
+    "practice_idea": "Create a base class 'Vehicle' and a subclass 'ElectricCar' that overrides a 'fuel_type' method and extends the parent constructor with a 'battery_capacity' attribute."
+  },
+  {
+    "id": "python-list-comprehensions",
+    "title": "Python List Comprehensions",
+    "summary": "Master the syntax of list comprehensions to write concise, readable, and fast loops.",
+    "prerequisites": ["Lists", "For loops", "Basic conditionals"],
+    "key_concepts": ["Inline loop syntax", "Filtering elements with 'if'", "Nested list comprehensions", "Readability vs complexity balance"],
+    "common_mistakes": ["Writing overly complex one-liners that harm readability", "Forgetting the correct order of clauses in nested loops"],
+    "practice_idea": "Take a standard nested loop that filters even numbers and squares them, and refactor it into a clean, single-line list comprehension."
+  },
+  {
+    "id": "python-context-managers",
+    "title": "Python Context Managers",
+    "summary": "Understand how the 'with' statement manages resources safely and how to build your own context managers.",
+    "prerequisites": ["Functions", "Exception handling (try-finally)"],
+    "key_concepts": ["The 'with' statement", "The __enter__ and __exit__ magic methods", "Resource allocation and cleanup"],
+    "common_mistakes": ["Forgetting to handle exceptions inside the __exit__ method", "Attempting to use a resource after the context block has closed"],
+    "practice_idea": "Create a custom context manager using a class or the @contextmanager decorator that measures and prints the execution time of the code block inside it."
+  },
+  {
+    "id": "python-generators",
+    "title": "Python Generators",
+    "summary": "Learn how to use generator functions and the yield keyword to create memory-efficient iterators.",
+    "prerequisites": ["Functions", "Loops", "Iterators"],
+    "key_concepts": ["The yield keyword", "Lazy evaluation", "Generator objects", "Memory efficiency"],
+    "common_mistakes": ["Using return instead of yield to produce multiple values", "Trying to reuse an exhausted generator"],
+    "practice_idea": "Write a generator function that streams a massive text file line-by-line without loading the entire file into RAM."
   }
+]
