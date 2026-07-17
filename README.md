@@ -159,3 +159,37 @@ Voici un exemple de fichier généré automatiquement par l'agent suite à une r
 >    - Decorators can also be implemented as classes (class decorators), so basic OOP knowledge is useful.
 >
 > Start with functions and closures, then progress to the `@` syntax and `functools`. Let me know if you'd like examples!
+
+## 🔍 Revue d'un serveur MCP tiers
+
+Dans le cadre de l'évaluation des risques liés à l'utilisation de serveurs MCP développés par des tiers, j'ai inspecté le serveur officiel **Filesystem** (`@modelcontextprotocol/server-filesystem`), issu du dépôt de référence `modelcontextprotocol/servers`.
+
+### 1. Ce que fait le serveur
+
+Ce serveur expose des opérations sur le système de fichiers local (lecture, écriture, listing, déplacement de fichiers/dossiers, récupération de métadonnées) à un client MCP, dans le but de permettre à une IA de manipuler des fichiers via un ensemble d'outils standardisés.
+
+### 2. Local ou distant
+
+Le serveur tourne **en local**, sur la machine de l'utilisateur. Il est lancé via `npx` (ou dans un conteneur Docker) et communique avec le client par le transport `stdio`, exactement comme notre `learning_server.py`.
+
+### 3. Outils et ressources exposés
+
+Parmi les outils principaux :
+
+- `read_text_file` : lecture du contenu d'un fichier texte.
+- `list_directory` : liste les fichiers et dossiers d'un répertoire.
+- `get_file_info` : renvoie les métadonnées d'un fichier (taille, dates de création/modification, permissions).
+- `list_allowed_directories` : indique quels répertoires le serveur est autorisé à lire/écrire.
+- Des outils d'écriture/déplacement de fichiers sont également disponibles.
+
+### 4. Permissions et identifiants requis
+
+Aucune clé API ni compte utilisateur n'est nécessaire. En revanche, le serveur exige que les **répertoires autorisés** soient explicitement définis au démarrage, soit via des arguments en ligne de commande, soit dynamiquement via le mécanisme MCP "Roots". Sans cette configuration, aucune opération sur le système de fichiers n'est possible.
+
+### 5. Risque identifié
+
+Si le périmètre des répertoires autorisés est configuré trop largement (par exemple l'intégralité du disque ou du dossier utilisateur), un modèle qui interprète mal une requête, ou un prompt malveillant injecté via un fichier lu par l'agent, pourrait entraîner la modification, le déplacement ou la suppression de fichiers sensibles situés en dehors du périmètre réellement nécessaire au projet.
+
+### 6. Mesure de sécurité appliquée
+
+Avant toute utilisation, je limiterais l'accès du serveur à un **unique dossier dédié au projet** (ex : `./workspace`) plutôt qu'à l'ensemble du disque, et j'utiliserais un montage en **lecture seule** dès que l'écriture n'est pas strictement requise pour la tâche demandée. Cela réduit fortement la surface d'attaque en cas de comportement inattendu du modèle.
